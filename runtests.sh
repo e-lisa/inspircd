@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-./run/bin/inspircd
+./run/bin/inspircd --runasroot
 exit $?
