@@ -1,10 +1,10 @@
 ## About
 
-InspIRCd is a modular C++ Internet Relay Chat (IRC) server for UNIX-like and Windows systems.
+zIRCaloyd is C++ moduler IRCd client with a focus on security. We are a downstream fork of InspIRCd.
 
 ## Supported Platforms
 
-InspIRCd is supported on the following platforms:
+zIRCaloyd is supported on the following platforms:
 
 - Most recent BSD variants using the Clang or GCC compilers and the GNU toolchains (Make, etc).
 
@@ -20,7 +20,31 @@ If you encounter any bugs then [please file an issue](https://github.com/inspirc
 
 ## Installation
 
-Most InspIRCd users running a UNIX-like system build from source. A guide about how to do this is available on [the InspIRCd docs site](https://docs.inspircd.org/3/installation/source).
+### Linux/Unix
+
+Install dependancies. On debian this will be:
+
+	`apt install libmaxminddb-dev libldap-dev libmysqlclient-dev libre2-dev libsqlclient-dev libpq-dev libtre-dev libsqlite3-dev libgnutls28-dev libmbedtls-dev`
+
+Checkout the repoistory:
+
+	 `git clone https://gitlab.com/zIRCaloyd/zircaloyd`
+
+Change current working directory (CWD) to `zircaloyd`:
+
+        `cd zircaloyd`
+
+Run configure script:
+
+    	`./configure`
+
+Build the project, replace `N` with the number of cores you have minus 1 (eg: if you have 4 cores use 3). If you are unsure, just use 2, or ommit `-j` entierly.
+
+      	`make -j3 install`
+
+### InspIRCd Documentation
+
+A guide about how to do this is available on [the InspIRCd docs site](https://docs.inspircd.org/3/installation/source).
 
 Building from source on Windows is generally not recommended but [a guide is available](https://github.com/inspircd/inspircd/blob/master/win/README.txt) if you wish to do this.
 
@@ -32,13 +56,16 @@ Some distributions ship an InspIRCd package in their package managers. We genera
 
 ## License
 
-InspIRCd is licensed under [version 2 of the GNU General Public License](https://docs.inspircd.org/license).
+zIRCaloyd is licensed under [version 2 of the GNU General Public License](https://docs.inspircd.org/license).
 
 ## External Links
+* [zIRCaloyd GitLab](https://gitlab.com/zIRCaloyd/zircaloyd)
 
-* [Website](https://www.inspircd.org)
-* [Documentation](https://docs.inspircd.org)
-* [GitHub](https://github.com/inspircd)
+
+### InspIRCd Resources
+* [InspIRCd Website](https://www.inspircd.org)
+* [InspIRCd GitHub](https://github.com/inspircd)
+* [InspIRCd Documentation](https://docs.inspircd.org)
 * [Twitter](https://twitter.com/inspircdteam)
 * [Mastodon](https://fosstodon.org/@inspircd)
 * Support IRC channel &mdash; \#inspircd on irc.inspircd.org
