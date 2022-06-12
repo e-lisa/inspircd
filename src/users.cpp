@@ -541,7 +541,6 @@ void LocalUser::CheckClass(bool clone_count)
 			{
 				ServerInstance->SNO->WriteToSnoMask('a', "WARNING: maximum localmax connections for the %s class (%ld) exceeded by %s, forced user to quit from server",
 					a->name.c_str(), a->GetMaxLocal(), this->GetIPString().c_str());
-				ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "%s User force quit from server localmax connections from the %s class (%ld) exeeded", this->GetIPString().c_str(), a->name.c_str(), a->GetMaxLocal());
 			}
 			return;
 		}
