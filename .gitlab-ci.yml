@@ -7,7 +7,7 @@ build:
   before_script:
      - apt update && apt -y install make netcat
   script:
-    - ./configure --disable-interactive --development --gid 0 --uid 0 && make -j2 install && cp /builds/zIRCaloyd/zircaloyd/run/conf/inspircd.conf.example /builds/zIRCaloyd/zircaloyd/run/conf/inspircd.conf
+    - ./configure --disable-interactive --development --gid 0 --uid 0 && make -j2 install && cp /builds/zIRCaloyd/zircaloyd/run/conf/examples/inspircd.conf.example /builds/zIRCaloyd/zircaloyd/run/conf/inspircd.conf
   artifacts:
     paths:
       - /builds/zIRCaloyd
