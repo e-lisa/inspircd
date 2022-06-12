@@ -95,6 +95,7 @@ namespace
 			// Either the user did not send NICK/USER or a module blocked registration in
 			// OnCheckReady until the client timed out.
 			ServerInstance->Users.QuitUser(user, "Registration timeout");
+			ServerInstance->SNO->WriteToSnoMask('a', "Warning: User registration timed out for client %s", user->GetIPString().c_str());
 		}
 	}
 
@@ -180,19 +181,19 @@ void UserManager::AddUser(int socket, ListenSocket* via, irc::sockets::sockaddrs
 		}
 	}
 
-	if (this->local_users.size() > ServerInstance->Config->SoftLimit)
-	{
-		ServerInstance->SNO->WriteToSnoMask('a', "Warning: softlimit value has been reached: %d clients", ServerInstance->Config->SoftLimit);
-		this->QuitUser(New,"No more connections allowed");
-		return;
-	}
+       if (this->local_users.size() > ServerInstance->Config->SoftLimit)
+       {
+	       ServerInstance->SNO->WriteToSnoMask('a', "Warning: softlimit value has been reached: %d clients", ServerInstance->Config->SoftLimit);
+               this->QuitUser(New,"No more connections allowed");
+               return;
+       }
 
 	// First class check. We do this again in LocalUser::FullConnect() after DNS is done, and NICK/USER is received.
 	New->SetClass();
 	// If the user doesn't have an acceptable connect class CheckClass() quits them
 	New->CheckClass(ServerInstance->Config->CCOnConnect);
-	if (New->quitting)
-		return;
+	if(New->quitting)
+	return;
 
 	/*
 	 * even with bancache, we still have to keep User::exempt current.

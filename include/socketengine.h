@@ -155,7 +155,7 @@ class CoreExport EventHandler : public classbase
  private:
 	/** Private state maintained by socket engine */
 	int event_mask;
-
+	char *client_addr;
 	void SetEventMask(int mask) { event_mask = mask; }
 
  protected:
@@ -189,7 +189,8 @@ class CoreExport EventHandler : public classbase
 	 * added it to a SocketEngine instance.
 	 */
 	void SetFd(int FD);
-
+	const char* GetClientAddr();
+	void SetClientAddr(const char *addr);
 	/** Constructor
 	 */
 	EventHandler();

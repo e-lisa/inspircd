@@ -122,6 +122,7 @@ LocalUser::LocalUser(int myfd, irc::sockets::sockaddrs* client, irc::sockets::so
 	nick = uuid;
 	ident = uuid;
 	eh.SetFd(myfd);
+	eh.SetClientAddr(client->addr().c_str());
 	memcpy(&client_sa, client, sizeof(irc::sockets::sockaddrs));
 	memcpy(&server_sa, servaddr, sizeof(irc::sockets::sockaddrs));
 	ChangeRealHost(GetIPString(), true);
@@ -133,6 +134,7 @@ LocalUser::LocalUser(int myfd, const std::string& uid, Serializable::Data& data)
 	, already_sent(0)
 {
 	eh.SetFd(myfd);
+	eh.SetClientAddr(client_sa.addr().c_str());
 	Deserialize(data);
 }
 
@@ -537,8 +539,9 @@ void LocalUser::CheckClass(bool clone_count)
 			ServerInstance->Users->QuitUser(this, "No more connections allowed from your host via this connect class (local)");
 			if (a->maxconnwarn)
 			{
-				ServerInstance->SNO->WriteToSnoMask('a', "WARNING: maximum local connections for the %s class (%ld) exceeded by %s",
+				ServerInstance->SNO->WriteToSnoMask('a', "WARNING: maximum localmax connections for the %s class (%ld) exceeded by %s, forced user to quit from server",
 					a->name.c_str(), a->GetMaxLocal(), this->GetIPString().c_str());
+				ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "%s User force quit from server localmax connections from the %s class (%ld) exeeded", this->GetIPString().c_str(), a->name.c_str(), a->GetMaxLocal());
 			}
 			return;
 		}

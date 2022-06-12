@@ -52,6 +52,7 @@ SocketEngine::Statistics SocketEngine::stats;
 EventHandler::EventHandler()
 {
 	fd = -1;
+	client_addr = NULL;
 	event_mask = 0;
 }
 
@@ -59,6 +60,16 @@ void EventHandler::SwapInternals(EventHandler& other)
 {
 	std::swap(fd, other.fd);
 	std::swap(event_mask, other.event_mask);
+}
+
+const char* EventHandler::GetClientAddr()
+{
+  return this->client_addr;
+}
+
+void EventHandler::SetClientAddr(const char *addr)
+{
+  this->client_addr = strdup((char*)addr);
 }
 
 void EventHandler::SetFd(int FD)
@@ -194,6 +205,7 @@ int SocketEngine::Close(EventHandler* eh)
 	DelFd(eh);
 	int ret = Close(eh->GetFd());
 	eh->SetFd(-1);
+	ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "%s Closing link", eh->GetClientAddr());
 	return ret;
 }
 
