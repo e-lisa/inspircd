@@ -10,11 +10,11 @@ build:
     - ./configure --disable-interactive --development --gid 0 --uid 0 && make -j2 install
   artifacts:
     paths:
-#      - /builds/zIRCaloyd
+      - /builds/zIRCaloyd
       # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      cache:
-         paths:
-           - "*.o"
+   cache:
+      paths:
+         - "*.o"
 
 # run tests using the binary built before
 test:
