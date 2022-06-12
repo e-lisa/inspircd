@@ -143,27 +143,10 @@ ListenSocket::~ListenSocket()
 	}
 }
 
-void ListenSocket::OnEventHandlerRead()
+
+
+void ListenSocket::ipv4to6WorkAround(irc::sockets::sockaddrs &client, irc::sockets::sockaddrs &server)
 {
-	irc::sockets::sockaddrs client;
-	irc::sockets::sockaddrs server(bind_sa);
-
-	socklen_t length = sizeof(client);
-	int incomingSockfd = SocketEngine::Accept(this, &client.sa, &length);
-
-	ServerInstance->Logs->Log("SOCKET", LOG_DEBUG, "Accepting connection on socket %s fd %d", bind_sa.str().c_str(), incomingSockfd);
-	if (incomingSockfd < 0)
-	{
-		ServerInstance->stats.Refused++;
-		return;
-	}
-
-	socklen_t sz = sizeof(server);
-	if (getsockname(incomingSockfd, &server.sa, &sz))
-	{
-		ServerInstance->Logs->Log("SOCKET", LOG_DEBUG, "Can't get peername: %s", strerror(errno));
-	}
-
 	if (client.family() == AF_INET6)
 	{
 		/*
@@ -201,6 +184,35 @@ void ListenSocket::OnEventHandlerRead()
 		// strcpy is safe here because sizeof(sockaddr_un.sun_path) is equal on both.
 		strcpy(client.un.sun_path, server.un.sun_path);
 	}
+}
+
+void ListenSocket::OnEventHandlerRead()
+{
+	irc::sockets::sockaddrs client;
+	irc::sockets::sockaddrs server(bind_sa);
+
+	socklen_t length = sizeof(client);
+	int incomingSockfd = SocketEngine::Accept(this, &client.sa, &length);
+
+	this->ipv4to6WorkAround(client, server);
+
+	if (incomingSockfd < 0)
+	{
+		ServerInstance->stats.Refused++;
+		ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "%s Refusing connection on port %d, failed to assign fd", client.addr().c_str(), server.port());
+		return;
+	}
+	else
+	{
+		socklen_t sz = sizeof(server);
+		if (getsockname(incomingSockfd, &server.sa, &sz))
+		{
+			ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "Can't get peername: %s", strerror(errno));
+		}
+		ServerInstance->Logs->Log("SOCKET", LOG_DEFAULT, "%s Accepted connection on port %d", client.addr().c_str(), server.port());
+	}
+
+	ServerInstance->Logs->Log("SOCKET", LOG_DEBUG, "Accepting connection on socket %s fd %d", bind_sa.str().c_str(), incomingSockfd);
 
 	SocketEngine::NonBlocking(incomingSockfd);
 

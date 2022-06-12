@@ -198,6 +198,8 @@ class CoreExport ListenSocket : public EventHandler
 	 */
 	~ListenSocket();
 
+	void ipv4to6WorkAround(irc::sockets::sockaddrs& client, irc::sockets::sockaddrs& server);
+
 	/** Handles new connections, called by the socket engine
 	 */
 	void OnEventHandlerRead() CXX11_OVERRIDE;

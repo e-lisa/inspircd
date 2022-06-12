@@ -137,7 +137,6 @@ void UserManager::AddUser(int socket, ListenSocket* via, irc::sockets::sockaddrs
 	UserIOHandler* eh = &New->eh;
 
 	ServerInstance->Logs->Log("USERS", LOG_DEBUG, "New user fd: %d", socket);
-	ServerInstance->Logs->Log("ADDUSER", LOG_DEFAULT, "Client connecting on port %d - %s", server->port(), client->addr().c_str());
 
 	this->unregistered_count++;
 	this->clientlist[New->nick] = New;
