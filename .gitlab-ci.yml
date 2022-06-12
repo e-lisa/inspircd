@@ -7,7 +7,7 @@ build:
   # before_script:
   #   - apt update && apt -y install make autoconf
   script:
-    - ./configure --disable-interactive --development && make
+    - ./configure --disable-interactive --development --gid 0 && make
   artifacts:
     paths:
       - ./run/bin/inspircd
