@@ -193,7 +193,7 @@ void UserManager::AddUser(int socket, ListenSocket* via, irc::sockets::sockaddrs
 	// If the user doesn't have an acceptable connect class CheckClass() quits them
 	New->CheckClass(ServerInstance->Config->CCOnConnect);
 	if(New->quitting)
-	return;
+	  return;
 
 	/*
 	 * even with bancache, we still have to keep User::exempt current.

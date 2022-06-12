@@ -56,6 +56,11 @@ EventHandler::EventHandler()
 	event_mask = 0;
 }
 
+EventHandler::~EventHandler()
+{
+	free(client_addr);
+}
+
 void EventHandler::SwapInternals(EventHandler& other)
 {
 	std::swap(fd, other.fd);
@@ -64,12 +69,12 @@ void EventHandler::SwapInternals(EventHandler& other)
 
 const char* EventHandler::GetClientAddr()
 {
-  return this->client_addr;
+	return this->client_addr;
 }
 
 void EventHandler::SetClientAddr(const char *addr)
 {
-  this->client_addr = strdup((char*)addr);
+	this->client_addr = strdup((char*)addr);
 }
 
 void EventHandler::SetFd(int FD)
